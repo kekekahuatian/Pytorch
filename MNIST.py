@@ -50,7 +50,6 @@ class ConvNet(nn.Module):
 
 
 def train(model, device, trainLoader, optimizer, epoch):
-    model.train()
     # enumerate函数用于将一个可遍历的数据对象(如列表、元组或字符串)组合为一个索引序列，同时列出数据和数据下标
     # 说人话就是让顺序排列的数据带上数字索引
     for batch_idx, (data, label) in enumerate(trainLoader):
