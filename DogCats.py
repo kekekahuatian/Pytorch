@@ -9,8 +9,8 @@ import time
 
 path = "I:\dogs-vs-cats-redux-kernels-edition"
 DEVICE = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-EPOCHS = 5
-BatchSize = 8
+EPOCHS = 10
+BatchSize = 64
 transform = transforms.Compose([transforms.CenterCrop(224),
                                 transforms.ToTensor(),
                                 transforms.Normalize([0.5, 0.5, 0.5], [0.5, 0.5, 0.5])])
@@ -118,7 +118,7 @@ for epoch in range(EPOCHS):
                 optimizer.step()
             running_loss += loss.data
             running_correct += torch.sum(pred == y.data)
-            if batch % 500 == 0 and param == "train":
+            if batch % 100 == 0 and param == "train":
                 print("Batch {}, Train Loss:{:.4f}, Train ACC:{:.4f}".format(
                     batch, running_loss / (BatchSize * batch), 100 * running_correct / (BatchSize * batch)))
 
