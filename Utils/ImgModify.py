@@ -13,7 +13,6 @@ def getImgByPath(dataPath):
     for files in os.walk(dataPath + "img/"):
         for file in files[2]:
             img = cv2.imread(dataPath + "img/" + file)
-
             image.append(img)
     file = open(dataPath + "label.txt", encoding='utf-8')
     for line in file:
@@ -22,16 +21,24 @@ def getImgByPath(dataPath):
     return [image, label]
 
 
-def modifyData(dataList):
+def modifyData(dataList, h=0, w=0):
     """
+    :param w: resize参数，不传就不resize
+    :param h: resize参数，不传就不resize
     :param dataList: 图片列表
     :return: 归一化后的tensor数据
     """
     i = 0
     for data in dataList:
-        modify = transforms.Compose([transforms.ToTensor(),
-                                     transforms.Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5))])
-
+        if h & w != 0:
+            modify = transforms.Compose([
+                        transforms.ToPILImage(),
+                        transforms.Resize((h, w)),
+                        transforms.ToTensor()
+                        ])
+        else:
+            modify = transforms.Compose([transforms.ToTensor(),
+                                         transforms.Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5))])
         dataList[i] = modify(data)
         i += 1
     return dataList
